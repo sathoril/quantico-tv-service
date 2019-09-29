@@ -1,0 +1,52 @@
+# Angular Build
+# Build definition to validate and build pagseguro-ev-pwa project
+# To customize your build add steps to this file and update the values
+# reference: https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/javascript?view=azure-devops
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+strategy:
+    matrix:
+      Python36:
+        python.version: '3.6'
+      Python37:
+        python.version: '3.7'
+    maxParallel: 2
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '$(python.version)'
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r ./requirements.txt
+    displayName: 'Install dependencies'
+
+  - script: | 
+      python setup.py sdist bdist_wheel 
+    displayName: 'Run build'
+
+  - script: |
+      pip install pytest-django
+      pytest --junitxml=./reports/quanticoTv.xml
+    displayName: 'Run tests'
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: 'reports/quanticoTv.xml'
+      testRunTitle: '$(Agent.OS) - $(Build.DefinitionName) - Python $(python.version)'
+    condition: succeededOrFailed()
+
+  - task: PublishBuildArtifacts@1 
+    inputs:   
+      pathtoPublish: $(Build.ArtifactStagingDirectory)        
+      artifactName: Quantico_Tv_Service_Wheel
+

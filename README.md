@@ -21,7 +21,7 @@ Setup
 
 2. Run `pip install -r requirements.txt`.
 
-3. Go to [setting.py](./quanticoTv/setting.py) and change the values between '{}' to configura de applciation database:
+3. Go to [setting.py](./quanticoTv/settings.py) and change the values between '{}' to configura de applciation database:
 
     example: ~~{change this}~~ -> to this
 
@@ -54,7 +54,7 @@ Setup
 Contribute and Quick start Development
 --------------------------------------
 
-1. Add "QuanticoTv - API" features to your INSTALLED_APPS [setting.py](./quanticoTv/setting.py) like this:
+1. Add "QuanticoTv - API" features to your INSTALLED_APPS [setting.py](./quanticoTv/settings.py) like this:
 
     ```python
     INSTALLED_APPS = [

@@ -50,6 +50,7 @@ steps:
     pushd '$(projectRoot)'
     python manage.py test --testrunner xmlrunner.extra.djangotestrunner.XMLTestRunner --no-input
   displayName: 'Run tests'
+  continueOnError: true
 
 - task: PublishTestResults@2
   inputs:
